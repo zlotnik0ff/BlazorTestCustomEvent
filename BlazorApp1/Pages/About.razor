@@ -1,0 +1,25 @@
+﻿@page "/about"
+
+<h3>About</h3>
+<p>Paste something into the following text box:</p>
+<textarea @bind="@_text" @onpastemultimedia="HandleCustomPaste"></textarea>
+<div class="img-container">
+@foreach (var img in _imgs)
+{
+    <img src='@img' class="img-slider"/>
+}
+</div>
+@code {
+    private List<string> _imgs = new();
+    private string _text;
+
+    void HandleCustomPaste(PasteMultimediaEventArgs eventArgs)
+    {
+        //_imgs = eventArgs.PastedMultimedia.Where(x => x.IsMultimedia).Select(x => x.Data);
+
+        if (eventArgs.IsMultimedia)
+            _imgs.Add(eventArgs.Data);
+        else
+            _text = eventArgs.Data;
+    }
+}
